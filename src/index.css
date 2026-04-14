@@ -1,0 +1,175 @@
+@import 'tailwindcss';
+
+/* Linear 设计系统 - 全局变量 */
+:root {
+  /* 背景色 */
+  --bg-primary: #08090a;
+  --bg-panel: #0f1011;
+  --bg-surface: #191a1b;
+  --bg-secondary: #28282c;
+  
+  /* 文字色 */
+  --text-primary: #f7f8f8;
+  --text-secondary: #d0d6e0;
+  --text-tertiary: #8a8f98;
+  --text-muted: #62666d;
+  
+  /* 边框 */
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-standard: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.12);
+  
+  /* 品牌色 */
+  --brand-indigo: #5e6ad2;
+  --brand-violet: #7170ff;
+  --brand-hover: #828fff;
+  
+  /* 状态色 */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+}
+
+/* 基础样式 */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-feature-settings: "cv01", "ss03";
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 中文字体优化 */
+.font-song {
+  font-family: 'SimSun', '宋体', serif;
+}
+
+.font-fangsong {
+  font-family: 'FangSong', '仿宋', serif;
+}
+
+.font-kai {
+  font-family: 'KaiTi', '楷体', serif;
+}
+
+.font-hei {
+  font-family: 'SimHei', '黑体', sans-serif;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* 动画 */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* A4 预览页面 */
+.preview-page {
+  width: 595px;
+  min-height: 842px;
+  padding: 105px 74px 99px 79px;
+  background: white;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* 预览段落样式 */
+.preview-title {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 28pt;
+  margin-bottom: 28pt;
+}
+
+.preview-h1 {
+  font-weight: bold;
+  text-indent: 2em;
+  line-height: 28pt;
+}
+
+.preview-h2 {
+  font-style: italic;
+  text-indent: 2em;
+  line-height: 28pt;
+}
+
+.preview-h3,
+.preview-h4 {
+  text-indent: 2em;
+  line-height: 28pt;
+}
+
+.preview-body {
+  text-indent: 2em;
+  line-height: 28pt;
+}
+
+.preview-salutation {
+  text-indent: 0;
+  line-height: 28pt;
+}
+
+.preview-signoff {
+  text-align: right;
+  padding-right: 4em;
+  line-height: 28pt;
+}
+
+.preview-date {
+  text-align: center;
+  line-height: 28pt;
+}
+
+.preview-attachment {
+  text-indent: 2em;
+  line-height: 28pt;
+}
+
+.preview-block {
+  position: relative;
+  padding: 2px 4px;
+  margin: 0 -4px;
+  border-radius: 2px;
+  transition: background-color 0.15s;
+}
+
+.preview-block:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.preview-block.low-confidence {
+  background-color: rgba(245, 158, 11, 0.1);
+}

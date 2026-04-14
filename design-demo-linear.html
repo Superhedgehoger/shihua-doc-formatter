@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>石化公文排版工具 - Linear 风格设计示例</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #08090a;
+      --bg-panel: #0f1011;
+      --bg-surface: #191a1b;
+      --bg-secondary: #28282c;
+      --text-primary: #f7f8f8;
+      --text-secondary: #d0d6e0;
+      --text-tertiary: #8a8f98;
+      --text-muted: #62666d;
+      --border-subtle: rgba(255, 255, 255, 0.05);
+      --border-standard: rgba(255, 255, 255, 0.08);
+      --brand-indigo: #5e6ad2;
+      --brand-violet: #7170ff;
+      --brand-hover: #828fff;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-feature-settings: "cv01", "ss03";
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--brand-indigo);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .logo-text {
+      font-size: 16px;
+      font-weight: 510;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-text span {
+      color: var(--text-tertiary);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 510;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-primary);
+    }
+
+    .btn-primary {
+      background: var(--brand-indigo);
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: var(--brand-hover);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-standard);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-icon {
+      padding: 8px;
+      border-radius: 50%;
+    }
+
+    /* Main Layout */
+    .main {
+      display: flex;
+      height: calc(100vh - 65px);
+    }
+
+    /* Sidebar - Input Panel */
+    .sidebar {
+      width: 420px;
+      background: var(--bg-panel);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .panel-title {
+      font-size: 15px;
+      font-weight: 590;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+
+    .panel-subtitle {
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    .panel-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 510;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .form-select,
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-standard);
+      border-radius: 6px;
+      font-size: 14px;
+      color: var(--text-primary);
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .form-select:focus,
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--brand-violet);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .form-textarea {
+      min-height: 280px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .form-textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 510;
+      color: var(--text-tertiary);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tab:hover {
+      color: var(--text-secondary);
+    }
+
+    .tab.active {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-primary);
+    }
+
+    /* Meta Form */
+    .meta-section {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .meta-title {
+      font-size: 13px;
+      font-weight: 510;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .meta-fields {
+      display: grid;
+      gap: 12px;
+    }
+
+    .meta-field label {
+      display: block;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-bottom: 4px;
+    }
+
+    .meta-field input {
+      width: 100%;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-standard);
+      border-radius: 4px;
+      font-size: 13px;
+      color: var(--text-primary);
+    }
+
+    .meta-field input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Action Button */
+    .action-bar {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .btn-full {
+      width: 100%;
+      justify-content: center;
+      padding: 12px 16px;
+      font-size: 14px;
+    }
+
+    /* Preview Area */
+    .preview-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #111;
+    }
+
+    .preview-toolbar {
+      padding: 12px 24px;
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .preview-title {
+      font-size: 14px;
+      font-weight: 510;
+      color: var(--text-secondary);
+    }
+
+    .preview-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* A4 Page */
+    .preview-scroll {
+      flex: 1;
+      overflow: auto;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .a4-page {
+      width: 595px;
+      min-height: 842px;
+      background: white;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+      padding: 105px 74px 99px 79px;
+      font-family: 'SimSun', '宋体', serif;
+      font-size: 16px;
+      line-height: 28px;
+      color: #000;
+    }
+
+    .doc-title {
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .doc-salutation {
+      margin-bottom: 16px;
+    }
+
+    .doc-body {
+      text-indent: 2em;
+      margin-bottom: 16px;
+    }
+
+    .doc-h1 {
+      font-weight: bold;
+      text-indent: 2em;
+    }
+
+    .doc-h2 {
+      font-style: italic;
+      text-indent: 2em;
+    }
+
+    .doc-signoff {
+      text-align: right;
+      padding-right: 4em;
+      margin-top: 32px;
+    }
+
+    .doc-date {
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Validation Panel */
+    .validation-panel {
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border-subtle);
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .validation-header {
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .validation-title {
+      font-size: 13px;
+      font-weight: 510;
+      color: var(--text-secondary);
+    }
+
+    .validation-count {
+      display: flex;
+      gap: 8px;
+    }
+
+    .count-badge {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 510;
+    }
+
+    .count-badge.error {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+
+    .count-badge.warning {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+    }
+
+    .validation-list {
+      padding: 8px 0;
+    }
+
+    .validation-item {
+      padding: 10px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+
+    .validation-item:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .validation-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .validation-icon.error {
+      color: var(--error);
+    }
+
+    .validation-icon.warning {
+      color: var(--warning);
+    }
+
+    .validation-content {
+      flex: 1;
+    }
+
+    .validation-message {
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .validation-message.error {
+      color: #fca5a5;
+    }
+
+    .validation-message.warning {
+      color: #fcd34d;
+    }
+
+    .validation-field {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Status Indicator */
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .status-dot.ready {
+      background: var(--success);
+      box-shadow: 0 0 6px var(--success);
+    }
+
+    .status-dot.warning {
+      background: var(--warning);
+    }
+
+    .status-dot.error {
+      background: var(--error);
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: relative;
+    }
+
+    .tooltip::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-standard);
+      border-radius: 6px;
+      font-size: 12px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.15s ease;
+      margin-bottom: 6px;
+    }
+
+    .tooltip:hover::after {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">石</div>
+      <div class="logo-text">石化公文<span>自动排版</span></div>
+    </div>
+    <div class="header-actions">
+      <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-tertiary);">
+        <span class="status-dot ready"></span>
+        API 已配置
+      </div>
+      <button class="btn btn-icon tooltip" data-tip="快捷键">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+          <path d="M12 17h.01"/>
+        </svg>
+      </button>
+      <button class="btn btn-icon tooltip" data-tip="设置">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Sidebar - Input -->
+    <aside class="sidebar">
+      <div class="panel-header">
+        <div class="panel-title">输入文档</div>
+        <div class="panel-subtitle">粘贴文字或上传文件开始解析</div>
+      </div>
+
+      <div class="panel-content">
+        <!-- Doc Type -->
+        <div class="form-group">
+          <label class="form-label">公文类型</label>
+          <select class="form-select">
+            <option>红头文件</option>
+            <option>工作表单</option>
+            <option>会议纪要</option>
+          </select>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <div class="tab active">粘贴文字</div>
+          <div class="tab">上传文件</div>
+        </div>
+
+        <!-- Text Area -->
+        <div class="form-group">
+          <textarea class="form-textarea" placeholder="请在此处粘贴公文内容...
+
+示例格式：
+关于加强安全生产管理工作的通知
+
+各部门：
+
+一、高度重视安全生产工作
+安全生产是企业发展的基石。
+
+（一）完善安全管理制度
+各部门应结合实际。
+
+1．定期开展安全检查
+各部门每月至少开展一次。
+
+某某石油分公司综合管理部
+2024年1月15日"></textarea>
+          <div style="text-align: right; font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+            0 字符
+          </div>
+        </div>
+
+        <!-- Metadata -->
+        <div class="meta-section">
+          <div class="meta-title">元数据（可选）</div>
+          <div class="meta-fields">
+            <div class="meta-field">
+              <label>发文字号</label>
+              <input type="text" placeholder="销售工单鲁办〔2024〕1号">
+            </div>
+            <div class="meta-field">
+              <label>主送机关</label>
+              <input type="text" placeholder="各部门：">
+            </div>
+            <div class="meta-field">
+              <label>发文机关</label>
+              <input type="text" placeholder="某某石油分公司">
+            </div>
+            <div class="meta-field">
+              <label>成文日期</label>
+              <input type="text" placeholder="2024年1月15日">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action -->
+      <div class="action-bar">
+        <button class="btn btn-primary btn-full">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+          </svg>
+          开始解析
+          <span style="margin-left: 8px; padding: 2px 6px; background: rgba(255,255,255,0.2); border-radius: 4px; font-size: 11px;">⌘↵</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Preview -->
+    <div class="preview-container">
+      <!-- Toolbar -->
+      <div class="preview-toolbar">
+        <div class="preview-title">格式预览</div>
+        <div class="preview-actions">
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 12px;">
+            <span class="status-dot warning"></span>
+            <span style="color: var(--text-tertiary);">2 个警告</span>
+          </div>
+          <button class="btn btn-ghost" style="font-size: 13px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            导出 .docx
+            <span style="margin-left: 4px; padding: 1px 4px; background: rgba(255,255,255,0.1); border-radius: 3px; font-size: 10px;">⌘S</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- A4 Preview -->
+      <div class="preview-scroll">
+        <div class="a4-page">
+          <div class="doc-title">关于加强安全生产管理工作的通知</div>
+          <div class="doc-salutation">各部门：</div>
+          <div class="doc-body">
+            为深入贯彻落实上级关于安全生产的重要指示精神，切实加强公司安全生产管理，现将有关事项通知如下：
+          </div>
+          <div class="doc-h1">一、高度重视安全生产工作</div>
+          <div class="doc-body">
+            安全生产是企业发展的基石。各部门必须将安全生产工作摆在首位，严格落实安全生产主体责任。
+          </div>
+          <div class="doc-h2">（一）完善安全管理制度</div>
+          <div class="doc-body">
+            各部门应结合实际，建立健全安全管理制度，确保制度覆盖生产经营各环节。
+          </div>
+          <div class="doc-h1">二、强化安全教育培训</div>
+          <div class="doc-body">
+            公司每季度组织一次全员安全教育培训，各部门负责人必须参加。
+          </div>
+          <div class="doc-signoff">某某石油分公司综合管理部</div>
+          <div class="doc-date">2024年1月15日</div>
+        </div>
+        <div style="margin-top: 16px; font-size: 12px; color: var(--text-muted);">
+          ⚠ 预览使用宋体近似，导出 .docx 后在 Word 中显示真实字体
+        </div>
+      </div>
+
+      <!-- Validation -->
+      <div class="validation-panel">
+        <div class="validation-header">
+          <div class="validation-title">规范校验</div>
+          <div class="validation-count">
+            <span class="count-badge warning">2 警告</span>
+          </div>
+        </div>
+        <div class="validation-list">
+          <div class="validation-item">
+            <svg class="validation-icon warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <div class="validation-content">
+              <div class="validation-message warning">有 3 个段落识别置信度较低，建议检查修正</div>
+              <div class="validation-field">位置: body</div>
+            </div>
+          </div>
+          <div class="validation-item">
+            <svg class="validation-icon warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <div class="validation-content">
+              <div class="validation-message warning">红头文件缺少发文机关署名和成文日期</div>
+              <div class="validation-field">位置: signoff</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
