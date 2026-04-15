@@ -3,8 +3,10 @@ import InputPanel from './ui/InputPanel.jsx';
 import PreviewPanel from './ui/PreviewPanel.jsx';
 import ValidationPanel from './ui/ValidationPanel.jsx';
 import TemplateManager from './ui/TemplateManager.jsx';
+import TemplateImportExport from './ui/TemplateImportExport.jsx';
+import TemplateGenerator from './ui/TemplateGenerator.jsx';
 import { analyzeStructure } from './core/structureAnalyzer.js';
-import { validateDocument } from './core/validator.js';
+import { validateDocument } from './core/validationEngine.js';
 import { injectAndDownload } from './core/templateInjector.js';
 import { 
   templateManager, 
@@ -34,16 +36,18 @@ function App() {
 
   // 模板管理器状态
   const [showTemplateManager, setShowTemplateManager] = useState(false);
+  const [showImportExport, setShowImportExport] = useState(false);
+  const [showTemplateGenerator, setShowTemplateGenerator] = useState(false);
 
   // === 校验：结构变化时自动校验 ===
   useEffect(() => {
     if (structure) {
-      const results = validateDocument(structure, currentTemplate);
-      setValidations(results);
+      const results = validateDocument(structure);
+      setValidations(results.results);
     } else {
       setValidations([]);
     }
-  }, [structure, currentTemplate]);
+  }, [structure]);
 
   // === 键盘快捷键 ===
   useEffect(() => {
@@ -138,6 +142,17 @@ function App() {
     }
   };
 
+  // === 处理文档修复 ===
+  const handleDocumentFix = (fixedDocument) => {
+    setStructure(fixedDocument);
+  };
+
+  // === 处理导入完成 ===
+  const handleImportComplete = () => {
+    // 刷新模板列表
+    setShowImportExport(false);
+  };
+
   // 获取当前标准的名称
   const currentStandard = STANDARDS[currentTemplate?.standard];
 
@@ -212,6 +227,41 @@ function App() {
               <line x1="9" y1="15" x2="15" y2="15"/>
             </svg>
             模板管理
+          </button>
+
+          {/* 导入导出按钮 */}
+          <button
+            onClick={() => setShowImportExport(true)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-white/5"
+            style={{ 
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--text-secondary)'
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            导入导出
+          </button>
+
+          {/* 模板生成按钮 */}
+          <button
+            onClick={() => setShowTemplateGenerator(true)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-white/5"
+            style={{ 
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--text-secondary)'
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14,2 14,8 20,8"/>
+            </svg>
+            生成模板
           </button>
 
           {/* 本地模式指示 */}
@@ -297,7 +347,10 @@ function App() {
             />
           </div>
           
-          <ValidationPanel validations={validations} />
+          <ValidationPanel 
+            document={structure || { title: metadata.title, body: [], metadata }}
+            onFix={handleDocumentFix}
+          />
         </div>
       </div>
 
@@ -307,6 +360,19 @@ function App() {
         onClose={() => setShowTemplateManager(false)}
         onSelectTemplate={handleSelectTemplate}
         currentTemplate={currentTemplate}
+      />
+
+      {/* 导入导出弹窗 */}
+      <TemplateImportExport
+        isOpen={showImportExport}
+        onClose={() => setShowImportExport(false)}
+        onImport={handleImportComplete}
+      />
+
+      {/* 模板生成器弹窗 */}
+      <TemplateGenerator
+        isOpen={showTemplateGenerator}
+        onClose={() => setShowTemplateGenerator(false)}
       />
     </div>
   );
