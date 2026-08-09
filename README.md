@@ -1,5 +1,8 @@
 # 石化公文自动排版工具
 
+> [!IMPORTANT]
+> 本项目已于 2026-08-09 停止维护并进入只读归档。现有功能与旧版自定义模板数据迁移能力已合并到 [shihuaGW](https://github.com/Superhedgehoger/shihuaGW)。新功能、修复和发布请仅在 shihuaGW 进行。
+
 > 纯前端 Web 应用，AI 辅助识别文档结构，一键导出符合中国石化公文规范（Q/SH 0758-2019）或国家标准（GB/T 9704-2012）的 Word 文档。
 
 ## ✨ 功能特性
